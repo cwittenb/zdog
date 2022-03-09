@@ -24,7 +24,7 @@
         require('./hemisphere'),
         require('./cylinder'),
         require('./cone'),
-		require('./horn'),
+		    require('./horn'),
         require('./box')
     );
   } else if ( typeof define == 'function' && define.amd ) {

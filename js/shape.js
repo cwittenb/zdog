@@ -24,6 +24,7 @@ var Shape = Anchor.subclass({
   path: [ {} ],
   front: { z: 1 },
   backface: true,
+  name: ""
 });
 
 Shape.prototype.create = function( options ) {
@@ -207,6 +208,8 @@ Shape.prototype.getRenderElement = function( ctx, renderer ) {
     this.svgElement = document.createElementNS( svgURI, 'path' );
     this.svgElement.setAttribute( 'stroke-linecap', 'round' );
     this.svgElement.setAttribute( 'stroke-linejoin', 'round' );
+    if(this.name)
+      this.svgElement.setAttribute( 'name', this.name );
   }
   return this.svgElement;
 };
