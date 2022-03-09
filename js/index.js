@@ -24,8 +24,9 @@
         require('./hemisphere'),
         require('./cylinder'),
         require('./cone'),
-		require('./horn'),
-        require('./box')
+        require('./horn'),
+        require('./box'),
+        require('./texture')
     );
   } else if ( typeof define == 'function' && define.amd ) {
     /* globals define */ // AMD
@@ -34,7 +35,7 @@
 /* eslint-disable max-params */
 } )( this, function factory( Zdog, CanvasRenderer, SvgRenderer, Vector, Anchor,
     Dragger, Illustration, PathCommand, Shape, Group, Rect, RoundedRect,
-    Ellipse, Polygon, Hemisphere, Cylinder, Cone, Horn, Box ) {
+    Ellipse, Polygon, Hemisphere, Cylinder, Cone, Horn, Box, Texture ) {
 
       Zdog.CanvasRenderer = CanvasRenderer;
       Zdog.SvgRenderer = SvgRenderer;
@@ -54,6 +55,7 @@
       Zdog.Cone = Cone;
 	    Zdog.Horn = Horn;
       Zdog.Box = Box;
+      Zdog.Texture = Texture;
 
       return Zdog;
 } );
