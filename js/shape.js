@@ -92,6 +92,13 @@ Shape.prototype.reset = function() {
   this.pathCommands.forEach( function( command ) {
     command.reset();
   } );
+
+  if (this.backface && this.backface.reset) {
+    this.backface.reset();
+  }
+  if (this.color && this.color.reset) {
+    this.color.reset();
+  }
 };
 
 Shape.prototype.transform = function( translation, rotation, scale ) {
@@ -107,6 +114,12 @@ Shape.prototype.transform = function( translation, rotation, scale ) {
   this.children.forEach( function( child ) {
     child.transform( translation, rotation, scale );
   } );
+  if (this.backface && this.backface.transform) {
+    this.backface.transform( translation, rotation, scale );
+  }
+  if (this.color && this.color.transform) {
+    this.color.transform( translation, rotation, scale );
+  }
 };
 
 Shape.prototype.updateSortValue = function() {
@@ -154,17 +167,16 @@ Shape.prototype.render = function( ctx, renderer ) {
 
 var TAU = utils.TAU;
 // Safari does not render lines with no size, have to render circle instead
-Shape.prototype.renderCanvasDot = function( ctx ) {
+Shape.prototype.renderCanvasDot = function( ctx , renderer) {
   var lineWidth = this.getLineWidth();
   if ( !lineWidth ) {
     return;
   }
-  ctx.fillStyle = this.getRenderColor();
   var point = this.pathCommands[0].endRenderPoint;
   ctx.beginPath();
   var radius = lineWidth/2;
   ctx.arc( point.x, point.y, radius, 0, TAU );
-  ctx.fill();
+  renderer.fill(ctx, null, true, this.getRenderColor() );
 };
 
 Shape.prototype.getLineWidth = function() {
@@ -179,7 +191,7 @@ Shape.prototype.getLineWidth = function() {
 
 Shape.prototype.getRenderColor = function() {
   // use backface color if applicable
-  var isBackfaceColor = typeof this.backface == 'string' && this.isFacingBack;
+  var isBackfaceColor = utils.isColor(this.backface) && this.isFacingBack;
   var color = isBackfaceColor ? this.backface : this.color;
   return color;
 };
